@@ -17,6 +17,8 @@ stack_t *push(stack_t *stack, int n)
 	
 	s->prev = NULL;
 	s->next = stack;
+	if (stack != NULL)
+		stack->prev= s;
 	s->n = n;
 	return s;
 }
@@ -28,8 +30,10 @@ stack_t *push(stack_t *stack, int n)
  */
 stack_t *pop(stack_t *stack)
 {
-	stack_t *top = stack;
-	free(top);
+	stack_t *next = stack->next;
+	free(stack);
+	if (next != NULL)
+		next->prev = NULL;
 	return stack->next;
 }
 

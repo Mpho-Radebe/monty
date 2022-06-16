@@ -13,6 +13,7 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 	int second;
 	int temp;
 	int sum;
+	stack_t *temp_t;
 	
 	char *line1 = line;
 	while (*line1 != '\0')
@@ -167,6 +168,63 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 			sum = (*stack)->n % sum;
 			*stack = pop(*stack);
 			*stack = push(*stack, sum);
+		}
+	}
+	else if (strcmp(instr, "pchar") == 0)
+	{
+		if (*stack == NULL)
+		{
+			fprintf(stderr, "L%d: can't pchar, stack empty\n", line_no);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			if ((*stack)->n > 256)
+			{
+				fprintf(stderr, "L%d: can't pchar, value out of range\n", line_no);
+				exit(EXIT_FAILURE);
+			}
+			putchar((*stack)->n);
+			putchar('\n');
+		}
+	}
+	else if (strcmp(instr, "pstr") == 0)
+	{
+		temp_t = *stack;
+		while (temp_t != NULL && temp_t->n != 0)
+		{
+			putchar(temp_t->n);
+			temp_t = temp_t->next;
+		}
+		putchar('\n');
+	}
+	else if (strcmp(instr, "rotl") == 0)
+	{
+		temp_t = *stack;
+		if (temp_t != NULL && temp_t->next != NULL)
+		{
+			while (temp_t->next != NULL)
+				temp_t = temp_t->next;
+			temp_t->next = *stack;
+			(*stack)->prev = temp_t;
+			*stack = (*stack)->next;
+			temp_t->next->next = NULL;
+			(*stack)->prev = NULL;
+		}
+	}
+	else if (strcmp(instr, "rotr") == 0)
+	{
+		temp_t = *stack;
+		if (temp_t != NULL && temp_t->next != NULL)
+		{
+			while (temp_t->next != NULL)
+				temp_t = temp_t->next;
+			
+			temp_t->prev->next = NULL;
+			temp_t->prev = NULL;
+			temp_t->next = *stack;
+			(*stack)->prev = temp_t;			
+			*stack = temp_t;
 		}
 	}
 	else
