@@ -1,5 +1,11 @@
 #include "monty.h"
 
+/**
+ * main - the main function
+ * @argc: count of the program's arguments
+ * @argv: command line arguments
+ * Return: always 0
+ */
 int main(int argc, char **argv)
 {
 	FILE *monty_file;

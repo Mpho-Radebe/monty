@@ -1,5 +1,11 @@
 #include "monty.h"
 
+/**
+ * execute_monty_instr - executes a monty opcode
+ * @stack: the stack
+ * @line: a line
+ * @line_no: the line number
+ */
 void execute_monty_instr(stack_t **stack, char *line, int line_no)
 {
 	char instr[8];
@@ -20,6 +26,18 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 	else if (strcmp(instr, "pall") == 0)
 	{
 		print_stack(*stack);
+	}
+	else if (strcmp(instr, "pint") == 0) 
+	{
+		if (stack == NULL)
+		{
+			fprintf(stderr, "L%d: can't pint, stack empty", line_no);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			printf("%d\n", (*stack)->n);
+		}
 	}
 	else
 	{

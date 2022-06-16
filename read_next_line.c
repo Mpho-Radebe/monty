@@ -1,5 +1,12 @@
 #include "monty.h"
 
+/**
+ * read_next_line - reads the next line in the given file
+ * @fp: file pointer
+ * @str: string
+ * @max_length: the maximum length
+ * @endOfFile: end of file
+ */
 void read_next_line(FILE *fp, char *str, int max_length, int* endOfFile)
 {
 	int count = 0;

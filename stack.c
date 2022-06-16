@@ -1,5 +1,11 @@
 #include "monty.h"
 
+/**
+ * push - push unto a stack
+ * @stack: the stack
+ * @n: the item
+ * Return: top of the stack
+ */
 stack_t *push(stack_t *stack, int n)
 {
 	stack_t *s = (stack_t *)malloc(sizeof(stack_t));
@@ -15,6 +21,11 @@ stack_t *push(stack_t *stack, int n)
 	return s;
 }
 
+/**
+ * pop - pops off the stack
+ * @stack: the stack
+ * Return: top of the stack
+ */
 stack_t *pop(stack_t *stack)
 {
 	stack_t *top = stack;
@@ -22,6 +33,10 @@ stack_t *pop(stack_t *stack)
 	return stack->next;
 }
 
+/**
+ * print_stack - prints a stack
+ * @stack: the stack
+ */
 void print_stack(stack_t *stack)
 {
 	while (stack != NULL)
