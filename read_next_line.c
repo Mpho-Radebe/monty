@@ -26,7 +26,7 @@ void read_next_line(FILE *fp, char *str, int max_length, int* endOfFile)
 		}
 		if (c == '\n')
 			break;
-		if (isalnum(c))
+		if (isalnum(c) || c == '#')
 		{
 			str[count++] = c;
 			first_print = 0;
