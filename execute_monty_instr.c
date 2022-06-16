@@ -14,6 +14,13 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 	int temp;
 	int sum;
 	
+	char *line1 = line;
+	while (*line1 != '\0')
+	{
+		*line1 = tolower(*line1);
+		line1++;
+	}
+	
 	sscanf(line, "%s", instr);
 	if (strcmp(instr, "push") == 0)
 	{
