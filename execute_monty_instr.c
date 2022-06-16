@@ -21,11 +21,15 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 		line1++;
 	}
 	
+	
+	if (line[0] == '#')
+		return;
+	
 	sscanf(line, "%s", instr);
 	if (strcmp(instr, "push") == 0)
 	{
 		sscanf(line, "%s %s", instr, temp_str);
-		if (atoi(temp_str) == 0)
+		if (strcmp(temp_str, "0") != 0 && strcmp(temp_str, "0 ") != 0 && atoi(temp_str) == 0)
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", line_no);
 			exit(EXIT_FAILURE);
@@ -88,6 +92,82 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 	else if (strcmp(instr, "nop") == 0)
 	{
 		
+	}
+	else if (strcmp(instr, "sub") == 0)
+	{
+		if (*stack == NULL || (*stack)->next == NULL)
+		{
+			fprintf(stderr, "L%d: can't sub, stack too short\n", line_no);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			sum = (*stack)->n;
+			*stack = pop(*stack);
+			sum = (*stack)->n - sum;
+			*stack = pop(*stack);
+			*stack = push(*stack, sum);
+		}
+	}
+	else if (strcmp(instr, "div") == 0)
+	{
+		if (*stack == NULL || (*stack)->next == NULL)
+		{
+			fprintf(stderr, "L%d: can't div, stack too short\n", line_no);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			if ((*stack)->n == 0)
+			{
+				fprintf(stderr, "L%d: division by zero\n", line_no);
+			exit(EXIT_FAILURE);
+			}
+			
+			sum = (*stack)->n;
+			*stack = pop(*stack);
+			sum = (*stack)->n / sum;
+			*stack = pop(*stack);
+			*stack = push(*stack, sum);
+		}
+	}
+	else if (strcmp(instr, "mul") == 0)
+	{
+		if (*stack == NULL || (*stack)->next == NULL)
+		{
+			fprintf(stderr, "L%d: can't mul, stack too short\n", line_no);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{			
+			sum = (*stack)->n;
+			*stack = pop(*stack);
+			sum = (*stack)->n * sum;
+			*stack = pop(*stack);
+			*stack = push(*stack, sum);
+		}
+	}
+	else if (strcmp(instr, "div") == 0)
+	{
+		if (*stack == NULL || (*stack)->next == NULL)
+		{
+			fprintf(stderr, "L%d: can't div, stack too short\n", line_no);
+			exit(EXIT_FAILURE);
+		}
+		else
+		{
+			if ((*stack)->n == 0)
+			{
+				fprintf(stderr, "L%d: division by zero\n", line_no);
+			exit(EXIT_FAILURE);
+			}
+			
+			sum = (*stack)->n;
+			*stack = pop(*stack);
+			sum = (*stack)->n % sum;
+			*stack = pop(*stack);
+			*stack = push(*stack, sum);
+		}
 	}
 	else
 	{
