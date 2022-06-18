@@ -44,6 +44,6 @@ typedef struct instruction_s
 
 void read_next_line(FILE *fp, char *str, int max_length, int* endOfFile);
 
-void execute_monty_instr(stack_t **stack, char *line,int line_no);
+int execute_monty_instr(stack_t **stack, char *line,int line_no);
 
 #endif

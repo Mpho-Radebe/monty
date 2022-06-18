@@ -6,7 +6,7 @@
  * @line: a line
  * @line_no: the line number
  */
-void execute_monty_instr(stack_t **stack, char *line, int line_no)
+int execute_monty_instr(stack_t **stack, char *line, int line_no)
 {
 	char instr[8];
 	char temp_str[20];
@@ -24,7 +24,7 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 	
 	
 	if (line[0] == '#')
-		return;
+		return 0;
 	
 	sscanf(line, "%s", instr);
 	if (strcmp(instr, "push") == 0)
@@ -33,7 +33,7 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 		if (strcmp(temp_str, "0") != 0 && strcmp(temp_str, "0 ") != 0 && atoi(temp_str) == 0)
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", line_no);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 		
 		*stack = push(*stack, atoi(temp_str));
@@ -47,7 +47,7 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 		if (*stack == NULL)
 		{
 			fprintf(stderr, "L%d: can't pint, stack empty\n", line_no);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 		else
 		{
@@ -56,14 +56,18 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 	}
 	else if (strcmp(instr, "pop") == 0)
 	{
-		*stack = pop(*stack);
+		if (*stack == NULL){
+			fprintf(stderr, "L%d: can't pop an empty stack\n", line_no);
+		}
+		else
+			*stack = pop(*stack);
 	}
 	else if (strcmp(instr, "swap") == 0)
 	{
 		if (*stack == NULL || (*stack)->next == NULL)
 		{
 			fprintf(stderr, "L%d: can't swap, stack too short\n", line_no);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 		else
 		{
@@ -78,7 +82,7 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 		if (*stack == NULL || (*stack)->next == NULL)
 		{
 			fprintf(stderr, "L%d: can't add, stack too short\n", line_no);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 		else
 		{
@@ -99,7 +103,7 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 		if (*stack == NULL || (*stack)->next == NULL)
 		{
 			fprintf(stderr, "L%d: can't sub, stack too short\n", line_no);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 		else
 		{
@@ -115,7 +119,7 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 		if (*stack == NULL || (*stack)->next == NULL)
 		{
 			fprintf(stderr, "L%d: can't div, stack too short\n", line_no);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 		else
 		{
@@ -137,7 +141,7 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 		if (*stack == NULL || (*stack)->next == NULL)
 		{
 			fprintf(stderr, "L%d: can't mul, stack too short\n", line_no);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 		else
 		{			
@@ -153,14 +157,14 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 		if (*stack == NULL || (*stack)->next == NULL)
 		{
 			fprintf(stderr, "L%d: can't div, stack too short\n", line_no);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 		else
 		{
 			if ((*stack)->n == 0)
 			{
 				fprintf(stderr, "L%d: division by zero\n", line_no);
-			exit(EXIT_FAILURE);
+				return (1);
 			}
 			
 			sum = (*stack)->n;
@@ -175,14 +179,14 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 		if (*stack == NULL)
 		{
 			fprintf(stderr, "L%d: can't pchar, stack empty\n", line_no);
-			exit(EXIT_FAILURE);
+			return (1);
 		}
 		else
 		{
 			if ((*stack)->n > 256)
 			{
 				fprintf(stderr, "L%d: can't pchar, value out of range\n", line_no);
-				exit(EXIT_FAILURE);
+				return (1);
 			}
 			putchar((*stack)->n);
 			putchar('\n');
@@ -230,6 +234,8 @@ void execute_monty_instr(stack_t **stack, char *line, int line_no)
 	else
 	{
 		fprintf(stderr, "L%d: unknown instruction %s\n", line_no, instr);
-		exit(EXIT_FAILURE);
+		return (1);
 	}
+	
+	return (0);
 }

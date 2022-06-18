@@ -12,6 +12,7 @@ int main(int argc, char **argv)
 	stack_t *stack = NULL;
 	char line[51];
 	int endOfFile;
+	int error_code;
 	
  	int line_no = 1;
 
@@ -35,15 +36,18 @@ int main(int argc, char **argv)
 		read_next_line(monty_file, line, 50, &endOfFile);
 		
 		if (line[0] != '\0')
-			execute_monty_instr(&stack, line, line_no);
+			error_code = execute_monty_instr(&stack, line, line_no);
 		
-		if (endOfFile)
+		if (endOfFile || error_code != 0)
 			break;
 		line_no++;
 	}
 
 	while (stack != NULL)
 		stack = pop(stack);
+
+	if (error_code != 0)
+		exit(EXIT_FAILURE);
 
 	fclose(monty_file);
 	
