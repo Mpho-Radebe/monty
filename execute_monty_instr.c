@@ -58,6 +58,7 @@ int execute_monty_instr(stack_t **stack, char *line, int line_no)
 	{
 		if (*stack == NULL){
 			fprintf(stderr, "L%d: can't pop an empty stack\n", line_no);
+			return (1);
 		}
 		else
 			*stack = pop(*stack);
@@ -126,7 +127,7 @@ int execute_monty_instr(stack_t **stack, char *line, int line_no)
 			if ((*stack)->n == 0)
 			{
 				fprintf(stderr, "L%d: division by zero\n", line_no);
-			exit(EXIT_FAILURE);
+				return (1);
 			}
 			
 			sum = (*stack)->n;

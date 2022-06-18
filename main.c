@@ -45,11 +45,10 @@ int main(int argc, char **argv)
 
 	while (stack != NULL)
 		stack = pop(stack);
-
+	fclose(monty_file);
+	
 	if (error_code != 0)
 		exit(EXIT_FAILURE);
-
-	fclose(monty_file);
 	
 	return (EXIT_SUCCESS); 
 }
