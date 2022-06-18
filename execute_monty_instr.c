@@ -1,6 +1,26 @@
 #include "monty.h"
 
 /**
+ * is_number - checks if a string is a number
+ * @str: the number
+ * Return: 0 or 1
+ */
+int is_number(char *str)
+{
+	char *ch_ptr = str;
+	int is_digit;
+
+	while (*ch_ptr != '\0')
+	{
+		is_digit = *ch_ptr >= '0' && *ch_ptr <= '9';
+		if (*ch_ptr != '+' && *ch_ptr != '-' && !is_digit)
+			return (0);
+		ch_ptr++;
+	}
+	return (1);
+}
+
+/**
  * execute_monty_instr - executes a monty opcode
  * @stack: the stack
  * @line: a line
@@ -30,7 +50,7 @@ int execute_monty_instr(stack_t **stack, char *line, int line_no)
 	if (strcmp(instr, "push") == 0)
 	{
 		sscanf(line, "%s %s", instr, temp_str);
-		if (strcmp(temp_str, "0") != 0 && strcmp(temp_str, "0 ") != 0 && atoi(temp_str) == 0)
+		if (!is_number(temp_str))
 		{
 			fprintf(stderr, "L%d: usage: push integer\n", line_no);
 			return (1);
