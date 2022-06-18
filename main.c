@@ -42,6 +42,9 @@ int main(int argc, char **argv)
 		line_no++;
 	}
 
+	while (stack != NULL)
+		stack = pop(stack);
+
 	fclose(monty_file);
 	
 	return (EXIT_SUCCESS); 
