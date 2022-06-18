@@ -25,6 +25,7 @@ int is_number(char *str)
  * @stack: the stack
  * @line: a line
  * @line_no: the line number
+ * Return: 1 or 0
  */
 int execute_monty_instr(stack_t **stack, char *line, int line_no)
 {
