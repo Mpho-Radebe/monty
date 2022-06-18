@@ -227,7 +227,7 @@ int execute_monty_instr(stack_t **stack, char *line, int line_no)
 		}
 		else
 		{
-			if ((*stack)->n > 256)
+			if ((*stack)->n > 126 || (*stack)->n < 0)
 			{
 				fprintf(stderr, "L%d: can't pchar, value out of range\n", line_no);
 				return (1);
