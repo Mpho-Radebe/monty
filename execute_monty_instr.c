@@ -239,7 +239,7 @@ int execute_monty_instr(stack_t **stack, char *line, int line_no)
 	else if (strcmp(instr, "pstr") == 0)
 	{
 		temp_t = *stack;
-		while (temp_t != NULL && temp_t->n != 0)
+		while (temp_t != NULL && temp_t->n != 0 && temp_t->n >= 0 && temp_t->n <= 126)
 		{
 			putchar(temp_t->n);
 			temp_t = temp_t->next;
